@@ -1,0 +1,38 @@
+1. We will create an AWS S3 Bucket and Upload data
+   * Sign in to the AWS Management Console, navigate to S3, and create a bucket.
+   * Upload the data files to the S3 bucket using the S3 web console or the AWS CLI.
+
+2. Create a Databricks workspace and cluster
+    * Sign in to the Databricks workspace and create a new workspace.
+    * Create a new cluster and configure it to connect to S3.
+
+3. Process the data in Databricks
+    * In the Databricks workspace, create a new notebook.
+    * Write code to read the data from S3 and perform data processing operations.
+
+4. Transform the data using Apache Spark
+    * Use Apache Spark APIs to transform the data into the desired format.
+    * Write the transformed data to S3.
+
+5. Load the data into Snowflake
+    * Use Apache Spark APIs to transform the data into the desired format.
+    * Write the transformed data to S3.
+
+
+# To make an AWS S3 bucket file public, you can follow these steps:
+
+Go to the AWS S3 console and select the bucket that contains the file you want to make public.
+
+Find the file you want to make public and select it.
+
+Click on the "Permissions" tab in the top navigation bar.
+
+Under the "Public access" section, click on the "Edit" button.
+
+Enable the checkbox next to "Public access to this bucket or objects" and click "Save changes."
+
+Next, click on the "Actions" dropdown button and select "Make public."
+
+A popup window will appear asking you to confirm that you want to make the object public. Click "Make public" to confirm.
+
+Once you have completed these steps, the file in your S3 bucket should be accessible to the public. You can share the object's URL with others, and they will be able to access it without any authentication or credentials. However, keep in mind that making an object public may pose a security risk, and it is best practice to limit public access only to the necessary files or objects.
