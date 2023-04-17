@@ -1,3 +1,4 @@
+from pyspark.sql.functions import monotonically_increasing_id
 from pyspark.sql.functions import col
 from pyspark.sql.functions import *
 import urllib
@@ -38,4 +39,36 @@ dbutils.fs.mount(SOURCE_URL, MOUNT_NAME)
 
 
 # Check if the AWS S3 bucket was mounted successfully
+# It will display all the file in my s3 bucket
 display(dbutils.fs.ls("/mnt/amazonkinzorize/amazon/"))
+
+
+# File location and type
+file_location = "/mnt/amazonkinzorize/amazon/Air_Conditioners.csv"
+file_type = "csv"
+# CSV options
+infer_schema = "true"
+first_row_is_header = "true"
+delimiter = ","
+# The applied options are for CSV files. For other file types, these will be ignored.
+df = spark.read.format(file_type) \
+    .option("inferSchema", infer_schema) \
+    .option("header", first_row_is_header) \
+    .option("sep", delimiter) \
+    .load(file_location)
+display(df)
+
+
+# We want to add ID column to the dataset we have in our dataframe so
+# it will be easy for us to query our data in snowflake
+
+# read the dataset
+df = spark.read.format("csv").option("header", True).load(
+    "/mnt/amazonkinzorize/amazon/Air_Conditioners.csv")
+
+# add a new column with unique ID number
+df = df.withColumn("ID", monotonically_increasing_id())
+
+# write the updated dataset to a new file
+df.write.format("csv").option("header", True).save(
+    "/mnt/amazonkinzorize/amazon/Updated_Air_Conditioners.csv")
