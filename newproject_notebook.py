@@ -72,3 +72,34 @@ df = df.withColumn("ID", monotonically_increasing_id())
 # write the updated dataset to a new file
 df.write.format("csv").option("header", True).save(
     "/mnt/amazonkinzorize/amazon/Updated_Air_Conditioners.csv")
+
+
+# Set up the Snowflake credentials
+options = {
+    "sfURL": "https://app.snowflake.com/eu-north-1.aws/hc93404/w5CQYHRYj8kO#query",
+    "sfUser": "",
+    "sfPassword": "",
+    "sfDatabase": "myamazondatabase",
+    "sfSchema": "SCHEMA",
+    "sfWarehouse": "COMPUTE_WH",
+}
+
+
+# Load the PySpark DataFrame
+df = spark.read.format("<file_format>").options(** < file_format_options > ).load("<input_file_path>")
+
+# Write the DataFrame to Snowflake
+
+
+df = spark.read.format("csv").option("header", "true").load(
+    "/mnt/amazonkinzorize/amazon/Updated_Air_Conditioners.csv").write.format("snowflake").options(**sfOptions).mode("append").option("dbtable", "transformed_table").save()
+
+# query the dataframe in snowflake
+df = spark.read \
+    .format("snowflake") \
+    .options(**options) \
+    .option("query", "select * from transformed_table;") \
+    .load()
+
+
+display(df)
